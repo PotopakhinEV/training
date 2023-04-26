@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21678"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Для запроса погоды укажите город" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bql-wk-rmf">
+                                <rect key="frame" x="20" y="59" width="285.33333333333331" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tyY-d8-8pB">
+                                <rect key="frame" x="0.0" y="769" width="393" height="49"/>
+                                <items>
+                                    <barButtonItem style="plain" systemItem="flexibleSpace" id="eM8-60-p56"/>
+                                    <barButtonItem title="Указать город" id="z5u-PR-b8h">
+                                        <connections>
+                                            <action selector="showNewGetCityAlert" destination="BYZ-38-t0r" id="sLR-bn-3XJ"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </items>
+                            </toolbar>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="q8S-84-siX">
+                                <rect key="frame" x="0.0" y="90" width="393" height="679"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <tableView key="tableFooterView" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Ash-0A-TJ0">
+                                    <rect key="frame" x="0.0" y="0.0" width="393" height="689"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    <connections>
+                                        <outlet property="dataSource" destination="BYZ-38-t0r" id="7pC-F9-CcM"/>
+                                        <outlet property="delegate" destination="BYZ-38-t0r" id="8lg-2H-3Ql"/>
+                                    </connections>
+                                </tableView>
+                                <connections>
+                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="eos-qc-8wZ"/>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="8dZ-ou-gea"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="tyY-d8-8pB" firstAttribute="top" secondItem="q8S-84-siX" secondAttribute="bottom" id="3vp-Ue-1I4"/>
+                            <constraint firstItem="tyY-d8-8pB" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="4E7-t6-Uyc"/>
+                            <constraint firstItem="q8S-84-siX" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5c0-Td-wzG"/>
+                            <constraint firstItem="tyY-d8-8pB" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="F3H-MX-koY"/>
+                            <constraint firstItem="bql-wk-rmf" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="NGK-Ss-1uV"/>
+                            <constraint firstItem="tyY-d8-8pB" firstAttribute="top" secondItem="q8S-84-siX" secondAttribute="bottom" id="W02-vC-385"/>
+                            <constraint firstItem="bql-wk-rmf" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="cxf-LR-qL9"/>
+                            <constraint firstItem="tyY-d8-8pB" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="dsA-Gj-SVv"/>
+                            <constraint firstItem="q8S-84-siX" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="eKc-Ef-tR2"/>
+                            <constraint firstItem="tyY-d8-8pB" firstAttribute="top" secondItem="q8S-84-siX" secondAttribute="bottom" id="l9h-Me-HKg"/>
+                            <constraint firstItem="q8S-84-siX" firstAttribute="top" secondItem="bql-wk-rmf" secondAttribute="bottom" constant="10" id="wmm-3W-bYb"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="HeaderLabel" destination="bql-wk-rmf" id="iTb-Kq-zoL"/>
+                        <outlet property="tableView" destination="Ash-0A-TJ0" id="QtU-nf-E4S"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="135.1145038167939" y="4.9295774647887329"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

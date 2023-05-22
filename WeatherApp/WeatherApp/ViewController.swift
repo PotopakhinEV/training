@@ -8,15 +8,22 @@
 import UIKit
 
 class ViewController: UIViewController {
-    var weather: VisualCorssingWeather? = nil
-    @IBOutlet weak var headerLabel: UILabel!
-    @IBOutlet var tableView: UITableView!
+//    var weather: VisualCorssingWeather? = nil
+//    @IBOutlet weak var headerLabel: UILabel!
+//    @IBOutlet var tableView: UITableView!
+
+
 
     override func viewDidLoad() {
-        super.viewDidLoad()
+      super.viewDidLoad()
     }
 
-    @IBAction func showNewGetCityAlert() {
+    override func loadView() {
+        let myNewView=MainView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        self.view = myNewView
+    }
+
+/*    @IBAction func showNewGetCityAlert() {
         let alertController = UIAlertController(title: "Введите название города", message: "", preferredStyle: .alert)
         alertController.addTextField { textField in
             textField.placeholder = "Название"
@@ -54,10 +61,10 @@ class ViewController: UIViewController {
         self.headerLabel.text = "Для запроса погоды укажите город"
         alertController.addAction(cancelButton)
         self.present(alertController, animated: true, completion: nil)
-    }
+    }*/
 }
 
-extension ViewController: UITableViewDataSource {
+/*extension ViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.weather?.days.count ?? 0
     }
@@ -81,3 +88,4 @@ extension ViewController: UITableViewDataSource {
         cell.contentConfiguration = configuration
     }
 }
+*/

@@ -12,15 +12,13 @@ class ViewController: UIViewController {
 //    @IBOutlet weak var headerLabel: UILabel!
 //    @IBOutlet var tableView: UITableView!
 
-
+    override func loadView() {
+        let myNewView = MainView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        self.view = myNewView
+    }
 
     override func viewDidLoad() {
       super.viewDidLoad()
-    }
-
-    override func loadView() {
-        let myNewView=MainView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        self.view = myNewView
     }
 
 /*    @IBAction func showNewGetCityAlert() {

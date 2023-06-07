@@ -10,11 +10,12 @@ import UIKit
 class WeatherListViewController: UIViewController {
     var weather: VisualCorssingWeather? = nil
 
-    private let currentView = WeatherListView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+    private var currentView: WeatherListView!
 
     override func loadView() {
+        self.currentView = WeatherListView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         self.view = currentView
-        self.currentView.setDelegate(self)
+        self.currentView.viewDelegate = self
         self.configure()
     }
 
@@ -30,7 +31,7 @@ class WeatherListViewController: UIViewController {
         self.present(alertController, animated: true, completion: nil)
     }
 
-    func loader(_ active: Bool = true) {
+    func loader(active: Bool) {
         if active {
             self.currentView.loaderIndicator.startAnimating()
             self.currentView.loaderIndicator.isHidden = false
@@ -38,6 +39,11 @@ class WeatherListViewController: UIViewController {
             self.currentView.loaderIndicator.stopAnimating()
             self.currentView.loaderIndicator.isHidden = true
         }
+    }
+    
+    func configure(){
+        currentView.tableView.delegate = self
+        currentView.tableView.dataSource = self
     }
 }
 
@@ -48,8 +54,9 @@ extension WeatherListViewController: WeatherListViewDelegate {
             textField.placeholder = "Название"
         }
 
-        let createButton = UIAlertAction(title: "Готово", style: .default) {
-            _ in
+        let createButton = UIAlertAction(title: "Готово", style: .default) { [weak self] _ in
+            guard let self = self else { return  }
+
             guard let cityName = alertController.textFields?[0].text else {
                 self.showErrorAlert(error: RequestWeatherError.badCity)
                 return
@@ -67,11 +74,6 @@ extension WeatherListViewController: WeatherListViewDelegate {
 }
 
 extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate {
-    func configure(){
-        currentView.tableView.delegate = self
-        currentView.tableView.dataSource = self
-    }
-
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.weather?.days.count ?? 0
     }
@@ -98,17 +100,23 @@ extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension WeatherListViewController {
     private func getWeather(_ city: String) {
-        self.loader()
+        self.loader(active: true)
 
         VisualCorssingWeather.requestWeather(city) {[weak self] weather, error  in
             guard let self = self else { return }
-            self.loader(false)
+            self.loader(active: false)
 
-            if weather != nil && error == nil {
+            if weather != nil {
                 self.weather = weather
-                self.currentView.tableView.reloadData()
+
+                DispatchQueue.main.async {
+                    self.currentView.tableView.reloadData()
+                }
+
                 self.currentView.headerLabel.text = "Для повторного запроса измените город"
-            } else {
+            }
+            
+            if error != nil {
                 self.showErrorAlert(error: error ?? RequestWeatherError.unknow)
             }
         }

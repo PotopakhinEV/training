@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol WeatherListViewDelegate {
+protocol WeatherListViewDelegate: AnyObject {
     func showAlertVC()
 }
 
 class WeatherListView: UIView {
 
-    private var viewDelegate: WeatherListViewDelegate!
+    weak var viewDelegate: WeatherListViewDelegate?
 
     @IBOutlet var contentView: WeatherListView!
     @IBOutlet weak var headerLabel: UILabel!
@@ -22,11 +22,7 @@ class WeatherListView: UIView {
     @IBOutlet weak var loaderIndicator: UIActivityIndicatorView!
 
     @IBAction func selectCity(_ sender: UIBarButtonItem) {
-        viewDelegate.showAlertVC()
-    }
-
-    func setDelegate(_ delegate: WeatherListViewDelegate) {
-        self.viewDelegate = delegate
+        viewDelegate?.showAlertVC()
     }
 
     override init(frame: CGRect) {
@@ -43,18 +39,3 @@ class WeatherListView: UIView {
         contentView.fixInView(self)
     }
 }
-
-extension UIView {
-    
-    func fixInView(_ container: UIView!) -> Void{
-        self.translatesAutoresizingMaskIntoConstraints = false;
-        self.frame = container.frame;
-        container.addSubview(self);
-        NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: container, attribute: .leading, multiplier: 1.0, constant: 0).isActive = true
-        NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: container, attribute: .trailing, multiplier: 1.0, constant: 0).isActive = true
-        NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: container, attribute: .top, multiplier: 1.0, constant: 0).isActive = true
-        NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 0).isActive = true
-    }
-
-}
-

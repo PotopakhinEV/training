@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8F773A262A1B8B14008BE535 /* WeatherListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8F773A252A1B8B14008BE535 /* WeatherListView.xib */; };
+		EB1064532A30D5D300CFF730 /* ExtensionsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB1064522A30D5D300CFF730 /* ExtensionsViews.swift */; };
 		EB9CB33429F5363D006C114D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9CB33329F5363D006C114D /* AppDelegate.swift */; };
 		EB9CB33629F5363D006C114D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9CB33529F5363D006C114D /* SceneDelegate.swift */; };
 		EB9CB33829F5363D006C114D /* WeatherListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB9CB33729F5363D006C114D /* WeatherListViewController.swift */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		8F773A252A1B8B14008BE535 /* WeatherListView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = WeatherListView.xib; sourceTree = "<group>"; };
+		EB1064522A30D5D300CFF730 /* ExtensionsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionsViews.swift; sourceTree = "<group>"; };
 		EB9CB33029F5363D006C114D /* WeatherApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WeatherApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EB9CB33329F5363D006C114D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EB9CB33529F5363D006C114D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			children = (
 				EB9FB2C92A1A70AC000A1B0C /* WeatherListView.swift */,
 				8F773A252A1B8B14008BE535 /* WeatherListView.xib */,
+				EB1064522A30D5D300CFF730 /* ExtensionsViews.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				EB9CB33829F5363D006C114D /* WeatherListViewController.swift in Sources */,
 				EB9FB2CA2A1A70AC000A1B0C /* WeatherListView.swift in Sources */,
 				EB9CB33429F5363D006C114D /* AppDelegate.swift in Sources */,
+				EB1064532A30D5D300CFF730 /* ExtensionsViews.swift in Sources */,
 				EB9CB33629F5363D006C114D /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

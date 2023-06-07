@@ -8,41 +8,53 @@
 import UIKit
 
 class ViewController: UIViewController {
-//    var weather: VisualCorssingWeather? = nil
-//    @IBOutlet weak var headerLabel: UILabel!
-//    @IBOutlet var tableView: UITableView!
+    var weather: VisualCorssingWeather? = nil
+
+    private let currentView = MainView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
 
     override func loadView() {
-        let myNewView = MainView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
-        self.view = myNewView
+        self.view = currentView
+        self.currentView.setVC(vc: self)
+        self.configure()
     }
 
     override func viewDidLoad() {
       super.viewDidLoad()
     }
 
-/*    @IBAction func showNewGetCityAlert() {
+    func showErrorAlert(error: RequestWeatherError) {
+        let alertController = UIAlertController(title: "Произошла ошибка", message: error.getTextError(), preferredStyle: .alert)
+        let cancelButton = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
+        self.currentView.headerLabel.text = "Для запроса погоды укажите город"
+        alertController.addAction(cancelButton)
+        self.present(alertController, animated: true, completion: nil)
+    }
+
+    func loader(_ active: Bool = true) {
+        if active {
+            self.currentView.loaderIndicator.startAnimating()
+            self.currentView.loaderIndicator.isHidden = false
+        } else {
+            self.currentView.loaderIndicator.stopAnimating()
+            self.currentView.loaderIndicator.isHidden = true
+        }
+    }
+}
+
+extension ViewController: MainViewVC {
+    func showAlertVC() {
         let alertController = UIAlertController(title: "Введите название города", message: "", preferredStyle: .alert)
         alertController.addTextField { textField in
             textField.placeholder = "Название"
         }
+
         let createButton = UIAlertAction(title: "Готово", style: .default) {
             _ in
-            self.headerLabel.text = "Загрузка..."
             guard let cityName = alertController.textFields?[0].text else {
                 self.showErrorAlert(error: RequestWeatherError.badCity)
                 return
             }
-
-            VisualCorssingWeather.requestWeather(cityName) {[weak self] weather, error  in
-                guard error == nil && weather != nil else {
-                    self?.showErrorAlert(error: error!)
-                    return
-                }
-                self?.weather = weather
-                self?.tableView.reloadData()
-                self?.headerLabel.text = "Для повторного запроса измените город"
-            }
+            self.getWeather(cityName)
         }
 
         let cancelButton = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
@@ -52,17 +64,14 @@ class ViewController: UIViewController {
 
         self.present(alertController, animated: true, completion: nil)
     }
-
-    func showErrorAlert(error: RequestWeatherError) {
-        let alertController = UIAlertController(title: "Произошла ошибка", message: error.getTextError(), preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
-        self.headerLabel.text = "Для запроса погоды укажите город"
-        alertController.addAction(cancelButton)
-        self.present(alertController, animated: true, completion: nil)
-    }*/
 }
 
-/*extension ViewController: UITableViewDataSource {
+extension ViewController: UITableViewDataSource, UITableViewDelegate {
+    func configure(){
+        currentView.tableView.delegate = self
+        currentView.tableView.dataSource = self
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.weather?.days.count ?? 0
     }
@@ -86,4 +95,20 @@ class ViewController: UIViewController {
         cell.contentConfiguration = configuration
     }
 }
-*/
+
+extension ViewController {
+    private func getWeather(_ city: String) {
+        self.loader()
+
+        VisualCorssingWeather.requestWeather(city) {[weak self] weather, error  in
+            self?.loader(false)
+            guard error == nil && weather != nil else {
+                self?.showErrorAlert(error: error!)
+                return
+            }
+            self?.weather = weather
+            self?.currentView.tableView.reloadData()
+            self?.currentView.headerLabel.text = "Для повторного запроса измените город"
+        }
+    }
+}

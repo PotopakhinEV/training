@@ -11,8 +11,9 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainView" customModule="WeatherApp" customModuleProvider="target">
             <connections>
                 <outlet property="contentView" destination="TqC-T6-Snz" id="SNG-GW-IEb"/>
+                <outlet property="headerLabel" destination="Edx-BW-5w3" id="RY9-DF-BIF"/>
+                <outlet property="loaderIndicator" destination="I7L-ZA-gsY" id="jUX-vW-T4z"/>
                 <outlet property="tableView" destination="C3D-DM-ULN" id="HkW-K0-LWM"/>
-                <outlet property="testLabel" destination="Edx-BW-5w3" id="pL3-uw-O1e"/>
                 <outlet property="toolbar" destination="p1T-bY-Xap" id="ZFy-Er-ebi"/>
             </connections>
         </placeholder>
@@ -31,13 +32,22 @@
                     <rect key="frame" x="0.0" y="769" width="393" height="49"/>
                     <items>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="Vsg-rE-1mW"/>
-                        <barButtonItem title="Указать город" id="to3-uP-x2l"/>
+                        <barButtonItem title="Указать город" id="to3-uP-x2l">
+                            <connections>
+                                <action selector="selectCity:" destination="-1" id="6bc-cm-lvs"/>
+                            </connections>
+                        </barButtonItem>
                     </items>
                 </toolbar>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="C3D-DM-ULN">
                     <rect key="frame" x="0.0" y="90" width="393" height="679"/>
                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                 </tableView>
+                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="I7L-ZA-gsY">
+                    <rect key="frame" x="178" y="411" width="37" height="37"/>
+                    <autoresizingMask key="autoresizingMask"/>
+                    <color key="color" red="0.46630366159999997" green="0.46630366159999997" blue="0.46630366159999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                </activityIndicatorView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="1Ha-Bn-0GS"/>
             <color key="backgroundColor" systemColor="systemCyanColor"/>

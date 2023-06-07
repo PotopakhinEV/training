@@ -7,28 +7,30 @@
 
 import UIKit
 
-class MainView: UIView {
+protocol WeatherListViewDelegate {
+    func showAlertVC()
+}
 
-    private var vc: MainViewVC!
+class WeatherListView: UIView {
 
-    @IBOutlet var contentView: MainView!
+    private var viewDelegate: WeatherListViewDelegate!
+
+    @IBOutlet var contentView: WeatherListView!
     @IBOutlet weak var headerLabel: UILabel!
     @IBOutlet weak var toolbar: UIToolbar!
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var loaderIndicator: UIActivityIndicatorView!
 
     @IBAction func selectCity(_ sender: UIBarButtonItem) {
-        vc.showAlertVC()
+        viewDelegate.showAlertVC()
     }
 
-    func setVC(vc: MainViewVC) {
-        self.vc = vc
+    func setDelegate(_ delegate: WeatherListViewDelegate) {
+        self.viewDelegate = delegate
     }
 
     override init(frame: CGRect) {
-
         super.init(frame: frame)
-
         commonInit()
     }
     
@@ -37,13 +39,9 @@ class MainView: UIView {
     }
     
     func commonInit() {
-        Bundle.main.loadNibNamed("MainView", owner: self, options: nil)
+        Bundle.main.loadNibNamed("WeatherListView", owner: self, options: nil)
         contentView.fixInView(self)
     }
-}
-
-protocol MainViewVC {
-    func showAlertVC()
 }
 
 extension UIView {

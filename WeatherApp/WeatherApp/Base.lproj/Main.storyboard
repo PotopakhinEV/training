@@ -8,11 +8,11 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--Weather List View Controller-->
         <scene sceneID="Wgx-r1-FN3">
             <objects>
-                <viewController id="NXY-XT-32L" customClass="ViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="GoA-bt-Cet" customClass="MainView" customModule="WeatherApp" customModuleProvider="target">
+                <viewController id="NXY-XT-32L" customClass="WeatherListViewController" customModule="WeatherApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GoA-bt-Cet" customClass="WeatherListView" customModule="WeatherApp" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <viewLayoutGuide key="safeArea" id="1OZ-ed-5au"/>

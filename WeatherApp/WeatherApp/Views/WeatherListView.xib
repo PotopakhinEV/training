@@ -18,7 +18,7 @@
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="TqC-T6-Snz" customClass="MainView" customModule="WeatherApp" customModuleProvider="target">
+        <view contentMode="scaleToFill" id="TqC-T6-Snz" customClass="WeatherListView" customModule="WeatherApp" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>

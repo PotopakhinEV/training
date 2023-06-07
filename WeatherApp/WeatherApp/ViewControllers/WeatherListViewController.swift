@@ -7,14 +7,14 @@
 
 import UIKit
 
-class ViewController: UIViewController {
+class WeatherListViewController: UIViewController {
     var weather: VisualCorssingWeather? = nil
 
-    private let currentView = MainView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+    private let currentView = WeatherListView(frame: CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
 
     override func loadView() {
         self.view = currentView
-        self.currentView.setVC(vc: self)
+        self.currentView.setDelegate(self)
         self.configure()
     }
 
@@ -41,7 +41,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: MainViewVC {
+extension WeatherListViewController: WeatherListViewDelegate {
     func showAlertVC() {
         let alertController = UIAlertController(title: "Введите название города", message: "", preferredStyle: .alert)
         alertController.addTextField { textField in
@@ -66,7 +66,7 @@ extension ViewController: MainViewVC {
     }
 }
 
-extension ViewController: UITableViewDataSource, UITableViewDelegate {
+extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate {
     func configure(){
         currentView.tableView.delegate = self
         currentView.tableView.dataSource = self
@@ -96,19 +96,21 @@ extension ViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-extension ViewController {
+extension WeatherListViewController {
     private func getWeather(_ city: String) {
         self.loader()
 
         VisualCorssingWeather.requestWeather(city) {[weak self] weather, error  in
-            self?.loader(false)
-            guard error == nil && weather != nil else {
-                self?.showErrorAlert(error: error!)
-                return
+            guard let self = self else { return }
+            self.loader(false)
+
+            if weather != nil && error == nil {
+                self.weather = weather
+                self.currentView.tableView.reloadData()
+                self.currentView.headerLabel.text = "Для повторного запроса измените город"
+            } else {
+                self.showErrorAlert(error: error ?? RequestWeatherError.unknow)
             }
-            self?.weather = weather
-            self?.currentView.tableView.reloadData()
-            self?.currentView.headerLabel.text = "Для повторного запроса измените город"
         }
     }
 }

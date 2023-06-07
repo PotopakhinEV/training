@@ -52,7 +52,7 @@ struct CurrentConditions: Decodable {
 }
 
 enum RequestWeatherError: Error {
-    case badCity, errorRequest(code: Int?)
+    case badCity, errorRequest(code: Int?), unknow
 
     func getTextError() -> String {
         switch self {
@@ -60,6 +60,8 @@ enum RequestWeatherError: Error {
             return "Ошибка ввода города"
         case .errorRequest(let code):
             return "Произошла ошибка при запросе данных. Повторите попытку. (Код ответа: \(String(describing: code))"
+        case .unknow:
+            return "Произошла неизвестная ошибка"
         }
     }
 }

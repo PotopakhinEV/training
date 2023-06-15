@@ -44,6 +44,8 @@ class WeatherListViewController: UIViewController {
     func configure(){
         currentView.tableView.delegate = self
         currentView.tableView.dataSource = self
+        currentView.tableView.rowHeight = 80
+        self.registerTableViewCells()
     }
 }
 
@@ -74,27 +76,30 @@ extension WeatherListViewController: WeatherListViewDelegate {
 }
 
 extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate {
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         self.weather?.days.count ?? 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell
-        if let reuseCell = tableView.dequeueReusableCell(withIdentifier: "DailyWeatherCell") {
-            cell = reuseCell
-        } else {
-            cell = UITableViewCell(style: .default, reuseIdentifier: "DailyWeatherCell")
-        }
-        configure(cell: &cell, for: indexPath)
-
+        let cell = tableView.dequeueReusableCell(withIdentifier: "DailyWeatherCell") as! WeatherCellTableViewCell
+        cell.configure(weather: self.weather!.days[indexPath.row])
         return cell
     }
 
-    private func configure(cell: inout UITableViewCell, for indexPath: IndexPath) {
-        var configuration = cell.defaultContentConfiguration()
-        configuration.text = self.weather?.days[indexPath.row].datetime
-        configuration.secondaryText = String(format: "%.1f", self.weather?.days[indexPath.row].FtoCConvert() ?? 0)
-        cell.contentConfiguration = configuration
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let detailVC = storyboard.instantiateViewController(withIdentifier: "WeatherDetailViewController") as! WeatherDetailViewController
+        detailVC.weather = self.weather!.days[indexPath.row].hours
+        self.currentView.tableView.deselectRow(at: indexPath, animated: true)
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+
+    private func registerTableViewCells() {
+        let textFieldCell = UINib(nibName: "WeatherCellTableViewCell",
+                                  bundle: nil)
+        self.currentView.tableView.register(textFieldCell,
+                                forCellReuseIdentifier: "DailyWeatherCell")
     }
 }
 
@@ -122,3 +127,4 @@ extension WeatherListViewController {
         }
     }
 }
+

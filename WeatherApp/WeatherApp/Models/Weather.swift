@@ -8,9 +8,15 @@
 import Foundation
 import Alamofire
 
+protocol Conditions: Decodable {
+    var datetime: String {get}
+    var temp: Double {get}
+    var icon: String {get}
+}
+
 struct VisualCorssingWeather: Decodable {
     let resolvedAddress, address, timezone: String
-    let days: [CurrentConditions]
+    let days: [DayConditions]
 
     static func requestWeather(_ city: String, completionHandler: @escaping (VisualCorssingWeather?, RequestWeatherError?) -> Void) {
         if city.isEmpty {
@@ -41,14 +47,17 @@ struct VisualCorssingWeather: Decodable {
     }
 }
 
-struct CurrentConditions: Decodable {
+struct DayConditions: Decodable, Conditions {
+    let icon: String
     let datetime: String
     let temp: Double
+    let hours: [HoursConditions]
+}
 
-    /// функция переводит градусы Фаренгейта в градусы Цельсия
-    func FtoCConvert() -> Double {
-        (self.temp - 32) / 1.8
-    }
+struct HoursConditions: Decodable, Conditions {
+    let icon: String
+    let datetime: String
+    let temp: Double
 }
 
 enum RequestWeatherError: Error {

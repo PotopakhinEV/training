@@ -5,12 +5,17 @@
 //  Created by Егор Потопахин on 24.04.2023.
 //
 
-import Foundation
 import Alamofire
+
+protocol Conditions: Decodable {
+    var datetime: String {get}
+    var temp: Double {get}
+    var icon: String {get}
+}
 
 struct VisualCorssingWeather: Decodable {
     let resolvedAddress, address, timezone: String
-    let days: [CurrentConditions]
+    let days: [DayConditions]
 
     static func requestWeather(_ city: String, completionHandler: @escaping (VisualCorssingWeather?, RequestWeatherError?) -> Void) {
         if city.isEmpty {
@@ -41,18 +46,21 @@ struct VisualCorssingWeather: Decodable {
     }
 }
 
-struct CurrentConditions: Decodable {
+struct DayConditions: Decodable, Conditions {
+    let icon: String
     let datetime: String
     let temp: Double
+    let hours: [HoursConditions]
+}
 
-    /// функция переводит градусы Фаренгейта в градусы Цельсия
-    func FtoCConvert() -> Double {
-        (self.temp - 32) / 1.8
-    }
+struct HoursConditions: Decodable, Conditions {
+    let icon: String
+    let datetime: String
+    let temp: Double
 }
 
 enum RequestWeatherError: Error {
-    case badCity, errorRequest(code: Int?)
+    case badCity, errorRequest(code: Int?), unknow
 
     func getTextError() -> String {
         switch self {
@@ -60,6 +68,8 @@ enum RequestWeatherError: Error {
             return "Ошибка ввода города"
         case .errorRequest(let code):
             return "Произошла ошибка при запросе данных. Повторите попытку. (Код ответа: \(String(describing: code))"
+        case .unknow:
+            return "Произошла неизвестная ошибка"
         }
     }
 }

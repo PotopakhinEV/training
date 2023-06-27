@@ -5,7 +5,6 @@
 //  Created by Егор Потопахин on 15.06.2023.
 //
 
-import Foundation
 import UIKit
 
 class WeatherDetailView: UIView {

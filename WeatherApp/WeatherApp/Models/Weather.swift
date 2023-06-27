@@ -5,7 +5,6 @@
 //  Created by Егор Потопахин on 24.04.2023.
 //
 
-import Foundation
 import Alamofire
 
 protocol Conditions: Decodable {

@@ -20,14 +20,13 @@ class WeatherListViewController: UIViewController {
     }
 
     override func viewDidLoad() {
-      super.viewDidLoad()
+        super.viewDidLoad()
     }
 
     func showErrorAlert(error: RequestWeatherError) {
         let alertController = UIAlertController(title: "Произошла ошибка", message: error.getTextError(), preferredStyle: .alert)
-        let cancelButton = UIAlertAction(title: "Понятно", style: .cancel, handler: nil)
         self.currentView.headerLabel.text = "Для запроса погоды укажите город"
-        alertController.addAction(cancelButton)
+        alertController.addAction(UIAlertAction(title: "Понятно", style: .cancel, handler: nil))
         self.present(alertController, animated: true, completion: nil)
     }
 
@@ -82,15 +81,25 @@ extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate 
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "DailyWeatherCell") as! WeatherCellTableViewCell
-        cell.configure(weather: self.weather!.days[indexPath.row])
+        guard let weather = weather else {
+            return UITableViewCell()
+        }
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "DailyWeatherCell") as? WeatherCellTableViewCell else {
+            let cell = WeatherCellTableViewCell()
+            cell.configure(weather: weather.days[indexPath.row])
+            return cell
+        }
+        cell.configure(weather: weather.days[indexPath.row])
         return cell
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let detailVC = storyboard.instantiateViewController(withIdentifier: "WeatherDetailViewController") as! WeatherDetailViewController
-        detailVC.weather = self.weather!.days[indexPath.row].hours
+
+        guard let detailVC = storyboard.instantiateViewController(withIdentifier: "WeatherDetailViewController") as? WeatherDetailViewController, let weather = weather else {
+            return
+        }
+        detailVC.weather = weather.days[indexPath.row].hours
         self.currentView.tableView.deselectRow(at: indexPath, animated: true)
         navigationController?.pushViewController(detailVC, animated: true)
     }
@@ -99,7 +108,7 @@ extension WeatherListViewController: UITableViewDataSource, UITableViewDelegate 
         let textFieldCell = UINib(nibName: "WeatherCellTableViewCell",
                                   bundle: nil)
         self.currentView.tableView.register(textFieldCell,
-                                forCellReuseIdentifier: "DailyWeatherCell")
+                                            forCellReuseIdentifier: "DailyWeatherCell")
     }
 }
 
@@ -108,23 +117,22 @@ extension WeatherListViewController {
         self.loader(active: true)
 
         VisualCorssingWeather.requestWeather(city) {[weak self] weather, error  in
-            guard let self = self else { return }
-            self.loader(active: false)
-
-            if weather != nil {
-                self.weather = weather
-
-                DispatchQueue.main.async {
-                    self.currentView.tableView.reloadData()
+            guard let self = self, let weather = weather else {
+                if error != nil {
+                    self?.showErrorAlert(error: error ?? RequestWeatherError.unknow)
                 }
+                self?.loader(active: false)
+                return
+            }
 
-                self.currentView.headerLabel.text = "Для повторного запроса измените город"
+            self.weather = weather
+
+            DispatchQueue.main.async {
+                self.currentView.tableView.reloadData()
+                self.loader(active: false)
             }
-            
-            if error != nil {
-                self.showErrorAlert(error: error ?? RequestWeatherError.unknow)
-            }
+
+            self.currentView.headerLabel.text = "Для повторного запроса измените город"
         }
     }
 }
-

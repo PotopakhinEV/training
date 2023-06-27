@@ -5,7 +5,6 @@
 //  Created by Егор Потопахин on 15.06.2023.
 //
 
-import Foundation
 import UIKit
 
 class WeatherDetailViewController: UIViewController {
@@ -19,6 +18,7 @@ class WeatherDetailViewController: UIViewController {
     }
 
     override func viewDidLoad() {
+        super.viewDidLoad()
         self.title = "Погода на день"
     }
     
